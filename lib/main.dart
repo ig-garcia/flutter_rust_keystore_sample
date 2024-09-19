@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keystore_sample/keystore_helper.dart';
 import 'package:rinf/rinf.dart';
 import './messages/generated.dart';
 
@@ -26,6 +27,7 @@ class NativeLibraryDemo extends StatefulWidget {
 
 class _NativeLibraryDemoState extends State<NativeLibraryDemo> {
   static const platform = MethodChannel('com.example/native');
+  final keystoreHelper = const KeystoreHelper();
 
   String _nativeLibraryResult = 'Click the button to initialize the native library';
 
@@ -55,7 +57,7 @@ class _NativeLibraryDemoState extends State<NativeLibraryDemo> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                final result = await _initializeNativeLibrary();
+                final result = await keystoreHelper.getPublicKey("alias");
                 setState(() {
                   _nativeLibraryResult = result;
                 });
