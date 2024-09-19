@@ -182,10 +182,9 @@ packages:
   rinf:
     dependency: "direct main"
     description:
-      name: rinf
-      sha256: "824599d8c4cfc3c5be1cdbd5c53f849eca93ed332bbb30bff60c3778454a26af"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../rinf/flutter_ffi_plugin"
+      relative: true
+    source: path
     version: "6.15.0"
   sky_engine:
     dependency: transitive
