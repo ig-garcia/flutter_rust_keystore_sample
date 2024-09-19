@@ -28,19 +28,9 @@ class NativeLibraryDemo extends StatefulWidget {
 }
 
 class _NativeLibraryDemoState extends State<NativeLibraryDemo> {
-  static const platform = MethodChannel('com.example/native');
   final keystoreHelper = const KeystoreHelper();
 
-  String _nativeLibraryResult = 'Click the button to initialize the native library';
-
-  Future<String> _initializeNativeLibrary() async {
-    try {
-      final String result = await platform.invokeMethod('initializeNative');
-      return result;
-    } on PlatformException catch (e) {
-      return "Failed to initialize native library: '${e.message}'";
-    }
-  }
+  String _keystoreGetKeyResult = 'Click the button to initialize the native library';
 
   @override
   Widget build(BuildContext context) {
@@ -52,20 +42,33 @@ class _NativeLibraryDemoState extends State<NativeLibraryDemo> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              _nativeLibraryResult,  // Display the result from the native code
-              textAlign: TextAlign.center,
+            // option 1: await first signal from rust with a button
+//            Text(
+//              _keystoreGetKeyResult,  // Display the result from the native code
+//              textAlign: TextAlign.center,
+//            ),
+//            SizedBox(height: 20),
+//            ElevatedButton(
+//              onPressed: () async {
+//                final result = await KeyThings(keystoreHelper).getKeyFromRust();
+//                setState(() {
+//                  _keystoreGetKeyResult = result;
+//                });
+//              },  // Trigger the native function on button press
+//              child: Text('Initialize Native Library'),
+//            ),
+          // option 2: listen to rust signals stream
+            StreamBuilder(
+              stream: KeyThings(keystoreHelper).getKeyStreamFromRust(), // GENERATED
+              builder: (context, snapshot) {
+                final keyResult = snapshot.data;
+                if (keyResult == null) {
+                  return const Text("Nothing received yet");
+                }
+                return Text(keyResult);
+              },
             ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                final result = await KeyThings(keystoreHelper).getKeyFromRust();
-                setState(() {
-                  _nativeLibraryResult = result;
-                });
-              },  // Trigger the native function on button press
-              child: Text('Initialize Native Library'),
-            ),
+
           ],
         ),
       ),
