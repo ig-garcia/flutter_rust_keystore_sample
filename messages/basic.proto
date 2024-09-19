@@ -10,3 +10,18 @@ message SmallText {
 message SmallNumber {
   int32 number = 1;
 }
+
+// [RINF:DART-SIGNAL]
+message InitializeKeyThings {
+  string text = 1;
+}
+
+// [RINF:RUST-SIGNAL]
+message GetKeyFromKeyStore {
+ string alias = 1;
+}
+
+// [RINF:DART-SIGNAL]
+message KeyFromKeyStore {
+ string key = 1;
+}

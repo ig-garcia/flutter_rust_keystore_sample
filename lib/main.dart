@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_keystore_sample/key_things.dart';
 import 'package:flutter_keystore_sample/keystore_helper.dart';
+import 'package:flutter_keystore_sample/messages/basic.pb.dart';
 import 'package:rinf/rinf.dart';
 import './messages/generated.dart';
 
@@ -57,7 +59,7 @@ class _NativeLibraryDemoState extends State<NativeLibraryDemo> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                final result = await keystoreHelper.getPublicKey("alias");
+                final result = await KeyThings(keystoreHelper).getKeyFromRust();
                 setState(() {
                   _nativeLibraryResult = result;
                 });

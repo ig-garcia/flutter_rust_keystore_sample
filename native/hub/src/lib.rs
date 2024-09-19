@@ -17,6 +17,7 @@ rinf::write_interface!();
 // use `tokio::task::spawn_blocking`.
 async fn main() {
     tokio::spawn(communicate());
+    tokio::spawn(initialize_key_things());
 }
 
 async fn communicate() -> Result<()> {
@@ -28,6 +29,19 @@ async fn communicate() -> Result<()> {
     while let Some(dart_signal) = receiver.recv().await {
         let message: SmallText = dart_signal.message;
         rinf::debug_print!("{message:?}");
+    }
+    Ok(())
+}
+
+async fn initialize_key_things() -> Result<()> {
+    use messages::basic::*;
+    // Send signals to Dart like below.
+    GetKeyFromKeyStore { alias: "alias_from_rust".to_string(), }.send_signal_to_dart();
+    // Get receivers that listen to Dart signals like below.
+    let mut receiver = KeyFromKeyStore::get_dart_signal_receiver()?;
+    while let Some(dart_signal) = receiver.recv().await {
+        let message: KeyFromKeyStore = dart_signal.message;
+        rinf::debug_print!("Got key from keystore: {message:?}");
     }
     Ok(())
 }
