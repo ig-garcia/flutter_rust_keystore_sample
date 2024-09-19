@@ -15,7 +15,7 @@ class MainActivity : FlutterActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, "com.example/native")
+        MethodChannel(flutterEngine!!.dartExecutor.binaryMessenger, "com.example/keystore")
             .setMethodCallHandler { call, result ->
                 when (call.method) {
                     "getPublicKey" -> {

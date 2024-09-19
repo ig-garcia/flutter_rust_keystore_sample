@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 
 class KeystoreHelper {
   const KeystoreHelper();
-  static const platform = MethodChannel('com.example/native');
+  static const platform = MethodChannel("com.example/keystore");
 
   Future<String> getPublicKey(String alias) async {
     try {
