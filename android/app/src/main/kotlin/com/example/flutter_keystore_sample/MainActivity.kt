@@ -10,6 +10,7 @@ class MainActivity: FlutterActivity() {
     // Load the native library
     init {
         System.loadLibrary("your_native_library")
+        System.loadLibrary("hub")
     }
 
     // Declare the native method
