@@ -22,9 +22,9 @@ class MainActivity: FlutterActivity() {
             .setMethodCallHandler { call, result ->
                 if (call.method == "initializeNative") {
                     // Get the JVM reference and pass it to the native method
-                    initializeNativeLibrary(getVM())
-                    Log.d(LOG_TAG, "native library initialized")
-                    result.success(null)
+                    val vm = getVM()  // Get the native value
+                    initializeNativeLibrary(vm)
+                    result.success("Native library initialized with VM: $vm")
                 } else {
                     result.notImplemented()
                 }
